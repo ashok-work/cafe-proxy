@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "cafe-proxy",
   "main": "app.js",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.4",
