@@ -14,44 +14,85 @@ const http = require('http');
 const fs = require('fs');
 
 app.use(cors());
+
 // Configuration
-const QWIKCAFE_SERVICE_URL = 'https://qwikcafestaging.fc.qwikcilver.com/api/customer/';
-const GIVEME5_SERVICE_URL = 'https://gm5staging.fc.qwikcilver.com/api/customer/';
-const KITAPP_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
+// STAGING URLS
+const QWIKCAFE_STAGING_SERVICE_URL = 'https://qwikcafestaging.fc.qwikcilver.com/api/customer/';
+const GIVEME5_STAGING_SERVICE_URL = 'https://gm5staging.fc.qwikcilver.com/api/customer/';
+const KITAPP_STAGING_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
+
+// PRODUCTION URLS
+const QWIKCAFE_PROD_SERVICE_URL = 'https://qwikcafe.fc.qwikcilver.com/api/customer/';
+const GIVEME5_PROD_SERVICE_URL = 'https://gm5.fc.qwikcilver.com/api/customer/';
+const KITAPP_PROD_SERVICE_URL = 'https://kit.fc.qwikcilver.com/api/customer/';
 
 // Logging the requests
 app.use(morgan("dev"));
 
-// Proxy Logic : Proxy endpoints
-app.use("/giveme5",
+// STAGING Proxy Logic : Proxy endpoints
+app.use("/giveme5/staging",
     createProxyMiddleware({
-        target: GIVEME5_SERVICE_URL,
+        target: GIVEME5_STAGING_SERVICE_URL,
         changeOrigin: true,
         logLevel: 'debug',
         pathRewrite: {
-            '^/giveme5/': '/', // remove base path
+            '^/giveme5/staging/': '/', // remove base path
         },
     })
 );
 
-app.use("/qwikcafe",
+app.use("/qwikcafe/staging",
     createProxyMiddleware({
-        target: QWIKCAFE_SERVICE_URL,
+        target: QWIKCAFE_STAGING_SERVICE_URL,
         changeOrigin: true,
         logLevel: 'debug',
         pathRewrite: {
-            '^/qwikcafe/': '/', // remove base path
+            '^/qwikcafe/staging/': '/', // remove base path
         },
     })
 );
 
-app.use("/kit-app",
+app.use("/kit-app/staging",
     createProxyMiddleware({
-        target: KITAPP_SERVICE_URL,
+        target: KITAPP_STAGING_SERVICE_URL,
         changeOrigin: true,
         logLevel: 'debug',
         pathRewrite: {
-            '^/kit-app/': '/', // remove base path
+            '^/kit-app/staging/': '/', // remove base path
+        },
+    })
+);
+
+// PRODUCTION Proxy Logic : Proxy endpoints
+app.use("/giveme5/prod",
+    createProxyMiddleware({
+        target: GIVEME5_PROD_SERVICE_URL,
+        changeOrigin: true,
+        logLevel: 'debug',
+        pathRewrite: {
+            '^/giveme5/prod/': '/', // remove base path
+        },
+    })
+);
+
+app.use("/qwikcafe/prod",
+    createProxyMiddleware({
+        target: QWIKCAFE_PROD_SERVICE_URL,
+        changeOrigin: true,
+        logLevel: 'debug',
+        pathRewrite: {
+            '^/qwikcafe/prod/': '/', // remove base path
+        },
+    })
+);
+
+app.use("/kit-app/prod",
+    createProxyMiddleware({
+        target: KITAPP_PROD_SERVICE_URL,
+        changeOrigin: true,
+        logLevel: 'debug',
+        pathRewrite: {
+            '^/kit-app/prod/': '/', // remove base path
         },
     })
 );
