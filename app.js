@@ -14,21 +14,57 @@ const http = require('http');
 const fs = require('fs');
 
 app.use(cors());
-
-// Configuration
-// STAGING URLS
-const QWIKCAFE_STAGING_SERVICE_URL = 'https://qwikcafestaging.fc.qwikcilver.com/api/customer/';
-const GIVEME5_STAGING_SERVICE_URL = 'https://gm5staging.fc.qwikcilver.com/api/customer/';
-const KITAPP_STAGING_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
-
-// PRODUCTION URLS
-const QWIKCAFE_PROD_SERVICE_URL = 'https://qwikcafe.fc.qwikcilver.com/api/customer/';
-const GIVEME5_PROD_SERVICE_URL = 'https://gm5.fc.qwikcilver.com/api/customer/';
-const KITAPP_PROD_SERVICE_URL = 'https://kit.fc.qwikcilver.com/api/customer/';
-
 // Logging the requests
 app.use(morgan("dev"));
 
+// Configuration
+const SERVICE_URLS = [
+    {
+        NAME: '/giveme5/staging',
+        URL: 'https://gm5staging.fc.qwikcilver.com/api/customer/',
+        PATTERN: '^/giveme5/staging/'
+    },
+    {
+        NAME: '/qwikcafe/staging',
+        URL: 'https://qwikcafestaging.fc.qwikcilver.com/api/customer/',
+        PATTERN: '^/qwikcafe/staging/'
+    },
+    {
+        NAME: '/kit-app/staging',
+        URL: 'https://fzstaging.fc.qwikcilver.com/api/customer/',
+        PATTERN: '^/kit-app/staging/'
+    },
+    {
+        NAME: '/giveme5/prod',
+        URL: 'https://gm5.fc.qwikcilver.com/api/customer/',
+        PATTERN: '^/giveme5/prod/'
+    },
+    {
+        NAME: '/qwikcafe/prod',
+        URL: 'https://qwikcafe.fc.qwikcilver.com/api/customer/',
+        PATTERN: '^/qwikcafe/prod/'
+    },
+    {
+        NAME: '/kit-app/prod',
+        URL: 'https://kit.fc.qwikcilver.com/api/customer/',
+        PATTERN: '^/kit-app/prod/'
+    }
+];
+
+SERVICE_URLS.forEach((item) => {
+    let pathRewrite = {};
+    pathRewrite[item.PATTERN] = '/';
+    app.use(item.NAME,
+        createProxyMiddleware({
+            target: item.URL,
+            changeOrigin: true,
+            logLevel: 'debug',
+            pathRewrite: pathRewrite
+        })
+    );
+});
+
+/*
 // STAGING Proxy Logic : Proxy endpoints
 app.use("/giveme5/staging",
     createProxyMiddleware({
@@ -36,7 +72,7 @@ app.use("/giveme5/staging",
         changeOrigin: true,
         logLevel: 'debug',
         pathRewrite: {
-            '^/giveme5/staging/': '/', // remove base path
+            '^/giveme5/staging/': '/'
         },
     })
 );
@@ -96,14 +132,7 @@ app.use("/kit-app/prod",
         },
     })
 );
-
-/*
-app.use("/", createProxyMiddleware({
-    target: KITAPP_SERVICE_URL,
-    changeOrigin: true,
-    logLevel: 'debug',
-}));
- */
+*/
 
 // Listen both http & https ports
 if (config.get('env') === "production") {
