@@ -6,8 +6,6 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
 
 // Configuration
-const PORT = 3000;
-const HOST = "localhost";
 const API_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
 
 // Logging the requests
@@ -18,7 +16,7 @@ app.use("/",
 	createProxyMiddleware({
 		target: API_SERVICE_URL,
 		changeOrigin: true
-	})		
+	})
 );
 
 app.get('/', (req,res,next) => {
@@ -26,6 +24,6 @@ app.get('/', (req,res,next) => {
 });
 
 // Starting our Proxy server
-app.listen(PORT, HOST, () => {
-	console.log(`Starting Proxy at ${HOST}:${PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+	console.log(`Starting Proxy at ${process.env.PORT || 5000}`);
 });
