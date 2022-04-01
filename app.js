@@ -25,6 +25,6 @@ app.get("*", function (req, res) {
 });
 
 // Starting our Proxy server
-app.listen(process.env.PORT || 5000, () => {
+app.listen(80, () => {
 	console.log(`Starting Proxy at ${process.env.PORT || 5000}`);
 });
