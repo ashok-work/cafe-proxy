@@ -12,7 +12,8 @@ const API_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
 app.use(morgan("dev"));
 
 // Proxy Logic : Proxy endpoints
-app.use(createProxyMiddleware({
+app.use("/",
+	createProxyMiddleware({
 		target: API_SERVICE_URL,
 		changeOrigin: true,
 		logLevel: 'debug',
