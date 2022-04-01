@@ -34,6 +34,8 @@ if (config.get('env') === "production") {
     const httpsServer = https.createServer({
         key: fs.readFileSync('/etc/letsencrypt/live/proxy.ashok.work/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/proxy.ashok.work/fullchain.pem'),
+        minVersion: "TLSv1.2",
+        maxVersion: "TLSv1.2"
     }, app);
     httpsServer.listen(443, () => {
         console.log('HTTPS Server running on port 443');
