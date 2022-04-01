@@ -3,14 +3,24 @@
   "version": "1.0.0",
   "description": "cafe-proxy",
   "main": "app.js",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "express": "^4.17.3",
     "http-proxy-middleware": "^2.0.4",
     "morgan": "^1.10.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "got": "^11.3.0",
+    "tape": "^4.7.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashok-work/cafe-proxy"
   },
   "author": "",
   "license": "ISC"
