@@ -15,7 +15,7 @@ app.use(morgan("dev"));
 app.use("/all-active-cafes",
 	createProxyMiddleware({
 		target: API_SERVICE_URL,
-		changeOrigin: false,
+		changeOrigin: true,
 		logLevel: 'debug',
 	})
 );
