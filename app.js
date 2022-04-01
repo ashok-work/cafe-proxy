@@ -11,16 +11,14 @@ const API_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
 // Logging the requests
 app.use(morgan("dev"));
 
-/*
 // Proxy Logic : Proxy endpoints
-app.use("/",
+app.use("/all-active-cafes",
 	createProxyMiddleware({
 		target: API_SERVICE_URL,
-		changeOrigin: true,
+		changeOrigin: false,
 		logLevel: 'debug',
 	})
 );
- */
 
 app.get("*", function (req, res) {
 	res.json({status: true});
