@@ -11,6 +11,7 @@ const API_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
 // Logging the requests
 app.use(morgan("dev"));
 
+/*
 // Proxy Logic : Proxy endpoints
 app.use("/",
 	createProxyMiddleware({
@@ -19,6 +20,11 @@ app.use("/",
 		logLevel: 'debug',
 	})
 );
+ */
+
+app.get("*", function (req, res) {
+	res.json({status: true});
+});
 
 // Starting our Proxy server
 app.listen(process.env.PORT || 5000, () => {
