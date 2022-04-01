@@ -19,18 +19,6 @@ const API_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
 
 // Logging the requests
 app.use(morgan("dev"));
-app.use((req, res, next) => {
-    if (config.get('env') === "production") {
-        if (req.headers['x-forwarded-proto'] !== 'https') {
-            return res.redirect('https://' + req.headers.host + req.url);
-        }
-        else {
-            return next();
-        }
-    } else {
-        return next();
-    }
-});
 
 // Proxy Logic : Proxy endpoints
 app.use("/",
