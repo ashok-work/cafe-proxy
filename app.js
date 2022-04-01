@@ -15,19 +15,54 @@ const fs = require('fs');
 
 app.use(cors());
 // Configuration
-const API_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
+const QWIKCAFE_SERVICE_URL = 'https://qwikcafestaging.fc.qwikcilver.com/api/customer/';
+const GIVEME5_SERVICE_URL = 'https://gm5staging.fc.qwikcilver.com/api/customer/';
+const KITAPP_SERVICE_URL = 'https://fzstaging.fc.qwikcilver.com/api/customer/';
 
 // Logging the requests
 app.use(morgan("dev"));
 
 // Proxy Logic : Proxy endpoints
-app.use("/",
+app.use("/giveme5",
     createProxyMiddleware({
-        target: API_SERVICE_URL,
+        target: GIVEME5_SERVICE_URL,
         changeOrigin: true,
         logLevel: 'debug',
+        pathRewrite: {
+            '^/giveme5/': '/', // remove base path
+        },
     })
 );
+
+app.use("/qwikcafe",
+    createProxyMiddleware({
+        target: QWIKCAFE_SERVICE_URL,
+        changeOrigin: true,
+        logLevel: 'debug',
+        pathRewrite: {
+            '^/qwikcafe/': '/', // remove base path
+        },
+    })
+);
+
+app.use("/kit-app",
+    createProxyMiddleware({
+        target: KITAPP_SERVICE_URL,
+        changeOrigin: true,
+        logLevel: 'debug',
+        pathRewrite: {
+            '^/kit-app/': '/', // remove base path
+        },
+    })
+);
+
+/*
+app.use("/", createProxyMiddleware({
+    target: KITAPP_SERVICE_URL,
+    changeOrigin: true,
+    logLevel: 'debug',
+}));
+ */
 
 // Listen both http & https ports
 if (config.get('env') === "production") {
